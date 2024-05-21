@@ -1,1 +1,17 @@
-spring.application.name=payment-service
+braintree:
+  merchant-id: x6365tfsjswg8f2m
+  public-key: 62tf9496m3vbshch
+  private-key: cac45a8e2e52eb9a1c8161805ceff70e
+
+spring:
+  application.name: payment-service
+  datasource:
+    url: jdbc:oracle:thin:system/pw@localhost:1521:xe
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect

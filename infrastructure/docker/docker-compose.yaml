@@ -1,0 +1,15 @@
+services:
+  payment_db:
+    container_name: payment-db
+    image: container-registry.oracle.com/database/express
+    environment:
+      ORACLE_PWD: pw
+      ORACLE_ALLOW_REMOTE: true
+      ORACLE_DISABLE_ASYNCH_IO: true
+      ORACLE_ENABLE_XDB: true
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+volumes:
+  oracle-data:
