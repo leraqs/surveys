@@ -1,0 +1,28 @@
+version: '3'
+services:
+  payment_db:
+    image: container-registry.oracle.com/database/enterprise
+    restart: always
+    environment:
+      ORACLE_SID: payment_db
+      ORACLE_PDB: pdb1
+      ORACLE_PWD: pw
+    volumes:
+      - payment_db_data:/opt/oracle/oradata
+    ports:
+      - "1521:1521"
+
+  survey_db:
+    image: mongo:7.0.9
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: un
+      MONGO_INITDB_ROOT_PASSWORD: pw
+    volumes:
+      - survey_db_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  payment_db_data:
+  survey_db_data:
