@@ -4,7 +4,7 @@ services:
     image: container-registry.oracle.com/database/enterprise
     restart: always
     environment:
-      ORACLE_SID: payment_db
+      ORACLE_SID: payments
       ORACLE_PDB: pdb1
       ORACLE_PWD: pw
     volumes:

@@ -1,4 +1,4 @@
-package com.pp.pp;
+package com.pp.surveyservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
