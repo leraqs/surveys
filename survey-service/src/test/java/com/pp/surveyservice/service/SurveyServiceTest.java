@@ -9,7 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,24 +32,28 @@ class SurveyServiceTest {
     }
 
     @Test
-    public void test_returns_correct_user_answers() {
-        String surveyId = "survey1";
-        String questionId = "question1";
+    public void returns_user_responses_when_survey_and_question_found() {
+        String surveyId = "s1";
+        String questionId = "q1";
         Survey survey = new Survey();
         Question question = new Question();
         question.setId(questionId);
         Option option = new Option();
         option.setText("Option1");
-        option.setUsersSelected(List.of(new User()));
-        question.setOptions(List.of(option));
+        List<Option> options = List.of(option);
+        question.setOptions(options);
+        Map<String, List<Option>> answers = new HashMap<>();
+        answers.put(questionId, options);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setAnswers(answers);
+        option.setUserResponses(List.of(userResponse));
         survey.setQuestions(List.of(question));
-
         when(surveyRepository.findById(surveyId)).thenReturn(Optional.of(survey));
 
-        OptionsStatistics result = surveyService.getOptionStatistics(surveyId, questionId);
+        List<UserResponse> result = surveyService.getOptionStatistics(surveyId, questionId);
 
         assertNotNull(result);
-        assertTrue(result.getUserAnswers().containsKey("Option1"));
-        assertEquals(1, result.getUserAnswers().get("Option1").size());
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().anyMatch(r -> r.getAnswers().containsKey(questionId)));
     }
 }

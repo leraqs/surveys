@@ -2,15 +2,15 @@ package com.pp.surveyservice.service;
 
 import com.pp.surveyservice.exceptions.QuestionNotFoundException;
 import com.pp.surveyservice.exceptions.SurveyNotFoundException;
-import com.pp.surveyservice.model.*;
+import com.pp.surveyservice.model.Question;
+import com.pp.surveyservice.model.Survey;
+import com.pp.surveyservice.model.UserResponse;
 import com.pp.surveyservice.repository.QuestionRepository;
 import com.pp.surveyservice.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class SurveyService {
         return surveyRepository.save(survey);
     }
 
-    public OptionsStatistics getOptionStatistics(String surveyId, String questionId) {
+    public List<UserResponse> getOptionStatistics(String surveyId, String questionId) {
         Survey survey = surveyRepository.findById(surveyId)
                 .orElseThrow(() -> new SurveyNotFoundException(surveyId));
 
@@ -31,12 +31,9 @@ public class SurveyService {
                 .findFirst()
                 .orElseThrow(() -> new QuestionNotFoundException(questionId));
 
-        Map<String, List<User>> optionCounts = question.getOptions().stream()
-                .collect(Collectors.toMap(Option::getText, Option::getUsersSelected));
-
-        OptionsStatistics optionsStatistics = new OptionsStatistics();
-        optionsStatistics.setUserAnswers(optionCounts);
-        return optionsStatistics;
+        return question.getOptions().stream()
+                .flatMap(option -> option.getUserResponses().stream())
+                .toList();
     }
 }
 

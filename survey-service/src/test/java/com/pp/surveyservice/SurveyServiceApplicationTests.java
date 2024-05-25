@@ -1,4 +1,4 @@
-package com.pp.pp;
+package com.pp.surveyservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
