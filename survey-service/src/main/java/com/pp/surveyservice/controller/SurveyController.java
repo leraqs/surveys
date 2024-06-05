@@ -12,14 +12,14 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/surveys")
+@RequestMapping("/api/v1/survey")
 public class SurveyController {
 
     private final SurveyService surveyService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Survey getOptionStatistics(@Validated @RequestBody Survey survey) {
+    public Survey createSurvey(@Validated @RequestBody Survey survey) {
         return surveyService.createSurvey(survey);
     }
 
@@ -28,3 +28,4 @@ public class SurveyController {
         return surveyService.getOptionStatistics(surveyId, questionId);
     }
 }
+

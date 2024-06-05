@@ -22,4 +22,6 @@ public class UserResponse {
      * questionId, selected options
      */
     private Map<String, List<Option>> answers;
+
+    private Map<String, List<Option>> groupingAnswers;
 }
