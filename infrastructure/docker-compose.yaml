@@ -23,6 +23,35 @@ services:
     ports:
       - "27017:27017"
 
+  user-db:
+    image: postgres:16.1
+    container_name: user_db
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: un
+      POSTGRES_PASSWORD: pw
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  ldap:
+    image: osixia/openldap:1.5.0
+    container_name: ldap
+    environment:
+      LDAP_ORGANISATION: "springframework"
+      LDAP_DOMAIN: "springframework.org"
+      LDAP_ADMIN_PASSWORD: "secret"
+    ports:
+      - "8389:389"
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap/slapd.d
+    command: "--copy-service"
+
 volumes:
   payment_db_data:
   survey_db_data:
+  postgres_data:
+  ldap_data:
+  ldap_config:

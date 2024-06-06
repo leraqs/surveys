@@ -1,0 +1,21 @@
+spring:
+  application.name: user-service
+  ldap:
+    urls: ldap://localhost:8389/
+    base: dn=dc=springframework,dc=org
+    username: cn=admin,dc=springframework,dc=org
+    password: secret
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/userdb
+    username: un
+    password: pw
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/userdb
+    username: un
+    password: pw
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
