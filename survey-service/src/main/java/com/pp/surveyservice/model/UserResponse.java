@@ -5,7 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Document(collection = "user_responses")
@@ -18,10 +17,8 @@ public class UserResponse {
 
     private String surveyId;
 
-    /**
-     * questionId, selected options
-     */
-    private Map<String, List<Option>> answers;
+    private List<Answer> answers;
 
-    private Map<String, List<Option>> groupingAnswers;
+    private List<Answer> groupingAnswers;
 }
+
