@@ -1,9 +1,10 @@
 spring:
   application.name: user-service
-  ldap.embedded:
-    ldif: classpath:schema.ldif
-    base-dn: dc=springframework,dc=org
-    port: 8389
+  ldap:
+    embedded:
+      ldif: classpath:schema.ldif
+      port: 8389
+      base-dn: dc=springframework,dc=org
 
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/userdb
@@ -18,3 +19,8 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+logging:
+  level:
+    org.springframework.ldap: DEBUG
+    org.springframework.security: DEBUG
