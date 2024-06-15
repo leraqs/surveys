@@ -1,6 +1,7 @@
-package com.pp.analysisservice.service;
+package com.pp.analysisservice.controller;
 
 import com.pp.analysisservice.model.Suggestion;
+import com.pp.analysisservice.service.SuggestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,3 +20,4 @@ public class SuggestionController {
         return suggestionService.generateSuggestions(userId, suggestionsNumber);
     }
 }
+
