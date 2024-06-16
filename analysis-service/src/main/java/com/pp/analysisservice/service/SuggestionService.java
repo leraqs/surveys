@@ -6,8 +6,9 @@ import com.pp.analysisservice.repository.PreferenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -16,39 +17,25 @@ public class SuggestionService {
     private final PreferenceRepository preferenceRepository;
 
     public List<Suggestion> generateSuggestions(String userId, int suggestionsNumber) {
-
-        List<Suggestion> suggestions = new ArrayList<>();
-
         List<Preference> userPreferences = preferenceRepository.findByUserId(userId);
         List<Preference> allPreferences = preferenceRepository.findAll();
 
-        Set<String> userSurveyIds = userPreferences.stream()
-                .map(Preference::getSurveyId)
-                .collect(Collectors.toSet());
+        Set<String> userSurveyIds = SuggestionUtils.getUserSurveyIds(userPreferences);
+        Map<String, Double> surveyScores = SuggestionUtils.calculateSurveyScores(allPreferences, userSurveyIds);
 
-        Map<String, Double> surveyScores = new HashMap<>();
-        for (Preference preference : allPreferences) {
-            if (!userSurveyIds.contains(preference.getSurveyId())) {
-                surveyScores.merge(preference.getSurveyId(),
-                        (preference.getLiked() ? 1.0 : 0.0) + (preference.getReadingTime() / 1000.0),
-                        Double::sum);
-            }
-        }
+        List<String> popularSurveyIds = userPreferences.isEmpty()
+                ? SuggestionUtils.getMostPopularSurveyIds(allPreferences, suggestionsNumber)
+                : SuggestionUtils.getTopSurveyIds(surveyScores, suggestionsNumber);
 
-        List<String> popularSurveyIds = surveyScores.entrySet().stream()
-                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
-                .limit(suggestionsNumber)
-                .map(Map.Entry::getKey)
+        return createSuggestions(userId, popularSurveyIds);
+    }
+
+    private List<Suggestion> createSuggestions(String userId, List<String> surveyIds) {
+        return surveyIds.stream()
+                .map(surveyId -> Suggestion.builder()
+                        .userId(userId)
+                        .suggestedSurveyId(surveyId)
+                        .build())
                 .toList();
-
-        for (String surveyId : popularSurveyIds) {
-            Suggestion suggestion = new Suggestion();
-            suggestion.setUserId(userId);
-            suggestion.setSuggestedSurveyId(surveyId);
-            suggestions.add(suggestion);
-        }
-
-        return suggestions;
     }
 }
-
