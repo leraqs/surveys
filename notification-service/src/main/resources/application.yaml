@@ -1,0 +1,4 @@
+spring.application.name: notification-service
+bot:
+  name: my_pp0_bot
+  token: 7055232680:AAFlndKXM02Pe_Dx3XUyE6tom3a0WtGHUlE
