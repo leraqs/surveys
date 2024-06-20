@@ -23,19 +23,21 @@ services:
     ports:
       - "27017:27017"
 
-  user-db:
+  notifications-db:
     image: postgres:16.1
-    container_name: user_db
+    container_name: notifications_db
     environment:
-      POSTGRES_DB: userdb
+      POSTGRES_DB: notifications
       POSTGRES_USER: un
       POSTGRES_PASSWORD: pw
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./notifications:/docker-entrypoint-initdb.d
+      - notifications_db_data:/var/lib/postgresql/data
+
 
 volumes:
   payment_db_data:
   survey_db_data:
-  postgres_data:
+  notifications_db_data:
