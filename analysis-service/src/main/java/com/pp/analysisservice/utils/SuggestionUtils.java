@@ -1,4 +1,4 @@
-package com.pp.analysisservice.service;
+package com.pp.analysisservice.utils;
 
 import com.pp.analysisservice.model.Preference;
 

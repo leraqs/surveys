@@ -3,6 +3,7 @@ package com.pp.analysisservice.service;
 import com.pp.analysisservice.model.Preference;
 import com.pp.analysisservice.model.Suggestion;
 import com.pp.analysisservice.repository.PreferenceRepository;
+import com.pp.analysisservice.utils.SuggestionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
