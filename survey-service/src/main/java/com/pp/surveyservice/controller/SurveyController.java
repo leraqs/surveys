@@ -1,5 +1,6 @@
 package com.pp.surveyservice.controller;
 
+import com.pp.surveyservice.model.CreateSurveyRequest;
 import com.pp.surveyservice.model.Survey;
 import com.pp.surveyservice.model.UserResponse;
 import com.pp.surveyservice.service.SurveyService;
@@ -19,7 +20,7 @@ public class SurveyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Survey createSurvey(@Validated @RequestBody Survey survey) {
+    public Survey createSurvey(@Validated @RequestBody CreateSurveyRequest survey) {
         return surveyService.createSurvey(survey);
     }
 

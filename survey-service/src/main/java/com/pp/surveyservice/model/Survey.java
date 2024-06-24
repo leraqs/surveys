@@ -1,16 +1,19 @@
 package com.pp.surveyservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Document(collection = "surveys")
-public class Survey {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Survey implements Serializable {
 
     @Id
     private String id;
@@ -19,11 +22,11 @@ public class Survey {
 
     private String description;
 
-    @DBRef(db = "questions")
     private List<Question> questions;
 
-    private String creatorId;
+    private String creatorUsername;
 
+    @CreatedDate
     private LocalDateTime creationTime;
 
 }

@@ -3,8 +3,18 @@ spring:
     url: r2dbc:postgresql://localhost:5432/notifications
     username: un
     password: pw
-
   application.name: notification-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    exchange:
+      name: survey-exchange
+    queue:
+      name: survey-queue
+    routing:
+      key: survey.#
 
 bot:
   name: my_pp0_bot

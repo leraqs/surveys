@@ -1,20 +1,20 @@
 package com.pp.surveyservice.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 
 @Data
-@Document(collection = "questions")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Question {
 
-    @Id
     private String id;
-
-    private String surveyId;
 
     private String text;
 

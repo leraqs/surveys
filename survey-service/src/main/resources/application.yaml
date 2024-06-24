@@ -1,0 +1,21 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/surveys?authSource=surveys
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    exchange:
+      name: survey-exchange
+    queue:
+      name: survey-queue
+    routing:
+      key: survey.#
+  application.name: survey-service
+
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG

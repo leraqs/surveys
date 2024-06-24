@@ -23,7 +23,9 @@ public class UserResponseService {
         List<UserResponse> responses = userResponseRepository.findBySurveyId(surveyId);
 
         return responses.stream()
-                .filter(response -> response.getGroupingAnswers().containsKey(criteria))
+                .filter(response -> response.getGroupingAnswers().stream()
+                        .anyMatch(answer -> answer.getSelectedOptions().stream()
+                                .anyMatch(option -> option.getText().equals(criteria))))
                 .collect(Collectors.toList());
     }
 }
