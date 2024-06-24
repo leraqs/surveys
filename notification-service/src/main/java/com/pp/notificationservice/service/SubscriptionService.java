@@ -4,6 +4,7 @@ import com.pp.notificationservice.model.Subscription;
 import com.pp.notificationservice.repository.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -26,6 +27,10 @@ public class SubscriptionService {
         return subscriptionRepository.findByChatIdAndUsername(chatId, username)
                 .map(subscription -> true)
                 .defaultIfEmpty(false);
+    }
+
+    public Flux<String> getSubscribersChatIds(String username) {
+        return subscriptionRepository.findChatIdsByUsername(username);
     }
 }
 
