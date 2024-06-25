@@ -34,4 +34,4 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Push Docker image
-      run: ./gradlew dockerPush
+      run: ./gradlew dockerPushImage

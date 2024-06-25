@@ -48,7 +48,7 @@ subprojects {
         buildArgs(['JAR_FILE': "build/libs/${project.name}.jar"])
     }
 
-    task dockerPush(type: Exec) {
+    task dockerPushImage(type: Exec) {
         dependsOn docker
         commandLine 'docker', 'push', "${project.group}/${project.name}:latest"
     }
