@@ -33,5 +33,10 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Push Docker image
-      run: ./gradlew dockerPushImage
+    - name: Build and publish Docker image
+      run: ./gradlew dockerPush
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      with:
+        args: login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
