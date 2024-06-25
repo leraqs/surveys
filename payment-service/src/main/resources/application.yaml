@@ -6,7 +6,9 @@ braintree:
 spring:
   application.name: payment-service
   datasource:
-    url: jdbc:oracle:thin:system/pw@localhost:1521:xe
+    url: jdbc:oracle:thin:@localhost:1521/payments
+    username: system
+    password: pw
     driver-class-name: oracle.jdbc.OracleDriver
 
   jpa:
