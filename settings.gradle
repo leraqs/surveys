@@ -1,6 +1,6 @@
 rootProject.name = 'pp'
 
-include('analysis-service')
-include('payment-service')
-include('survey-service')
-include('user-service')
+include(':analysis-service')
+include(':payment-service')
+include(':survey-service')
+include(':user-service')

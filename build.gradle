@@ -1,11 +1,9 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.5'
-    id 'io.spring.dependency-management' version '1.1.5'
-    id "com.palantir.docker" version "0.36.0"
+    id "com.palantir.docker" version "0.36.0" apply false
 }
 
-group = 'com.anohub'
+group = 'com.pp'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -22,30 +20,33 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
-}
-
 subprojects {
     apply plugin: 'com.palantir.docker'
 
-    docker {
-        name "${project.group}/${project.name}:latest"
-        files 'build/libs'
-        buildArgs(['JAR_FILE': "build/libs/${project.name}.jar"])
-        push true
+    afterEvaluate { project ->
+        if (tasks.findByName('bootJar') != null && tasks.findByName('bootJar').enabled) {
+            tasks.named('dockerPrepare') {
+                dependsOn 'bootJar'
+            }
+
+            docker {
+                copySpec.from(tasks.bootJar.outputs.files.singleFile).into("/build/libs")
+                name "leraqs/${project.name}:${version}"
+                dockerfile file('Dockerfile')
+                files jar.archivePath
+                buildArgs([JAR_FILE: "${project.name}-${version}.jar"])
+                push true
+                noCache true
+            }
+
+            tasks.named('docker') {
+                dependsOn bootJar
+            }
+        }
     }
 }
