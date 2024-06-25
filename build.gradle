@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.5'
     id 'io.spring.dependency-management' version '1.1.5'
+    id "com.palantir.docker" version "0.36.0"
 }
 
 group = 'com.anohub'
@@ -36,4 +37,19 @@ bootJar {
 
 jar {
     enabled = true
+}
+
+subprojects {
+    apply plugin: 'com.palantir.docker'
+
+    docker {
+        name "${project.group}/${project.name}:latest"
+        files 'build/libs'
+        buildArgs(['JAR_FILE': "build/libs/${project.name}.jar"])
+    }
+
+    task dockerPush(type: Exec) {
+        dependsOn docker
+        commandLine 'docker', 'push', "${project.group}/${project.name}:latest"
+    }
 }
